@@ -5,6 +5,12 @@ import Login from "./features/auth/Login";
 import DashLayout from './components/DashLayout';
 import Welcome from './features/auth/Welcome';
 import ShopsList from './features/shops/ShopsList';
+import ShopPage from './features/shops/ShopPage';
+import Prefetch from './features/auth/Prefetch';
+
+
+
+
 function App() {
   return (
     <div className="App">
@@ -14,12 +20,16 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/shops/:id/appointment'></Route> {/*public route to set an appointment */}
 
+     <Route element={<Prefetch/>}>
         <Route path='dash' element={<DashLayout/>}>
           <Route index element={<Welcome/>}/>
           <Route path='shops'>
             <Route index element={<ShopsList/>}/> {/* an admin will be able to see all shop but a shopkeeper will be able to see only his shops*/}
+            <Route path=':id'element={<ShopPage/>}/>
           </Route> 
         </Route>
+        </Route>
+       
       </Route>
     </Routes>
       

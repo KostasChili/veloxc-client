@@ -19,7 +19,7 @@ const Shop = ({shopId})=>{
         }
         const description = descriptionState?shop?.description:shop?.description.substring(0,20);
         const handleEdit =()=>navigate(`/dash/shops/edit/${shopId}`);
-        const handleShopHomePage=()=>navigate(`/dash/shops/view/${shopId}`);
+        const handleShopHomePage=()=>navigate(`/dash/shops/${shopId}`);
             return(
                 <tr>
                     <td>{user}</td>
