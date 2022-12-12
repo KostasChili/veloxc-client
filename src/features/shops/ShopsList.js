@@ -1,5 +1,6 @@
 import { useGetShopsQuery } from "./shopsApiSlice";
 import Shop from '../shops/Shop';
+import { Link } from "react-router-dom";
 
 const ShopsList = () => {
   const {
@@ -25,18 +26,23 @@ const ShopsList = () => {
   ?ids.map(shopId=><Shop key={shopId} shopId={shopId}/>)
   :null
   content = (
+    <>
     <table >
     <thead >
       <tr>
-        <th scope="col" >User</th>
-        <th scope="col" >Title</th>
-        <th scope="col" >Description</th>
+        <th scope="col" >Ιδιοκτήτης</th>
+        <th scope="col" >Επωνυμία</th>
+        <th scope="col" >Περιγραφή</th>
       </tr>
     </thead> 
       <tbody>
       {tableContent}
       </tbody>
   </table>
+  <div>
+    <button><Link to='/dash/shops/new'>Καταχώρηση επιχείρησης</Link></button>
+  </div>
+  </>
   )
 
   return content;
