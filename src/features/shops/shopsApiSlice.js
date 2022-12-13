@@ -41,6 +41,22 @@ export const shopsApiSlice = apiSlice.injectEndpoints({
                 else return [{type:'Shop',id:'LIST'}]
             }
         }),
+        getShop:builder.query({
+            query:(id)=>({
+                url:`/shops/public/${id}`,
+                method:'GET'
+            })
+        }),
+        setAppointment:builder.mutation({
+            query:initialAppointment=>({
+                url:`/shops/public/${initialAppointment.id}`,
+                method:'POST',
+                body:{
+                    ...initialAppointment
+                }
+               
+            })
+        }),
         addNewShop:builder.mutation({
             query:initialShop=>({
                 url:'/shops',
@@ -82,6 +98,8 @@ export const shopsApiSlice = apiSlice.injectEndpoints({
 
 export const{
     useGetShopsQuery,
+    useGetShopQuery,
+    useSetAppointmentMutation,
     useAddNewShopMutation,
     useUpdateShopMutation,
     useDeleteShopMutation

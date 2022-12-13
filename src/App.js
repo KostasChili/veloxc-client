@@ -12,6 +12,7 @@ import NewShopForm from './features/shops/NewShopForm';
 import UsersList from './features/users/UsersList';
 import EditUser from './features/users/EditUser';
 import NewUserForm from './features/users/NewUserForm';
+import ShopPublicPage from './features/public/ShopPublicPage';
 
 
 
@@ -23,7 +24,9 @@ function App() {
       <Route path='/' element={<Layout/>}>
         <Route index element={<Public/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/shops/:id/appointment'></Route> {/*public route to set an appointment */}
+        <Route path='/shops/public/:id'>
+          <Route index element={<ShopPublicPage/>}/>
+        </Route> {/*public route to set an appointment */}
 
      <Route element={<Prefetch/>}>
         <Route path='dash' element={<DashLayout/>}>
