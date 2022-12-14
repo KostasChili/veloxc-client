@@ -13,6 +13,9 @@ const ShopsList = () => {
 
  let content 
 
+ 
+ if(!shops) content = <p>Loading...</p>
+
  if(isLoading) content = <p>Loading....</p>
 
  if(isError) content = <p>{error?.data?.message}</p>
@@ -40,19 +43,14 @@ const ShopsList = () => {
       </tbody>
   </table>
   <div>
-    <button><Link to='/dash/shops/new'>Καταχώρηση επιχείρησης</Link></button>
   </div>
   </>
   )
 
-  return content;
+  
  }
+ return content;
 
-  return (
-    <h1>
-      'Ολες οι επιχειρήσεις'
-    </h1>
-  )
 }
 
 export default ShopsList

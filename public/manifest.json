@@ -1,0 +1,25 @@
+{
+    "short_name": "veloxc",
+    "name": "Veloc Constitutio",
+    "icons": [
+      {
+        "src": "",
+        "sizes": "",
+        "type": ""
+      },
+      {
+        "src": "",
+        "type": "",
+        "sizes": ""
+      },
+      {
+        "src": "",
+        "type": "",
+        "sizes": "5"
+      }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }

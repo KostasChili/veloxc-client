@@ -23,7 +23,7 @@ const Public = () => {
     </main>
     <footer>
         <Link to="/login">Σύνδεση Συνεργάτη</Link><br/>
-        <Link to="/dash/users/new">Εγγραφή Συνεργάτη</Link>
+        <Link to="/users/new">Εγγραφή Συνεργάτη</Link>
     </footer>
       
     </section>

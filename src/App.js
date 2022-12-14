@@ -24,7 +24,9 @@ function App() {
       <Route path='/' element={<Layout/>}>
         <Route index element={<Public/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/users/new' element={<NewUserForm/>}/>
         <Route path='/shops/public/:id'>
+       
           <Route index element={<ShopPublicPage/>}/>
         </Route> {/*public route to set an appointment */}
 
@@ -34,7 +36,7 @@ function App() {
           <Route path='users'>
             <Route index element={<UsersList/>}/>
             <Route path=":id" element={<EditUser/>}/>
-            <Route path="new" element={<NewUserForm/>}/>
+            
           </Route>
           <Route path='shops'>
             <Route index element={<ShopsList/>}/> {/* an admin will be able to see all shop but a shopkeeper will be able to see only his shops*/}
