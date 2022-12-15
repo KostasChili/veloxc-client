@@ -1,6 +1,5 @@
 import { useGetShopsQuery } from "./shopsApiSlice";
 import Shop from '../shops/Shop';
-import { Link } from "react-router-dom";
 
 const ShopsList = () => {
   const {
@@ -9,7 +8,11 @@ const ShopsList = () => {
     isSuccess,
     isError,
     error
-  }= useGetShopsQuery();
+  }= useGetShopsQuery({
+    pollingInterval:3000,
+    
+  });
+
 
  let content 
 

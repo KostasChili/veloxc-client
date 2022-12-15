@@ -38,7 +38,7 @@ const NewUserForm = () => {
       setEmail("");
       setFirstname("");
       setLastname("");
-      navigate("/dash/users");
+      navigate("/");
     }
   }, [isSuccess, navigate]);
 

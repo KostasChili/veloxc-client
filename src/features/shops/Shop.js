@@ -12,14 +12,14 @@ const Shop = ({shopId})=>{
     const [descriptionState,setDescriptionState]=useState(false);
 
     if(shop){
-        const user = shop.username;
-        const title = shop.title;
+        const user = shop?.shopkeeper;
+        const title = shop?.title;
         const handleDescription=()=>{
             setDescriptionState(!descriptionState);
         }
         const description = descriptionState?shop?.description:shop?.description.substring(0,20);
         const handleEdit =()=>navigate(`/dash/shops/${shopId}`);
-        const handleShopHomePage=()=>navigate(`/dash/shops/appointments`);
+        const handleShopHomePage=()=>navigate(`${shopId}/appointments`);
             return(
                 <tr>
                     <td>{user}</td>
