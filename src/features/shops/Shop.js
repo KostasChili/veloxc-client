@@ -12,9 +12,14 @@ const Shop = ({shopId})=>{
     const [descriptionState,setDescriptionState]=useState(false);
 
     if(shop){
-        console.log(shop)
+       
         const user = shop?.shopkeeper;
         const title = shop?.title;
+        const email = shop?.email;
+        const tel = shop?.tel;
+        const city = shop?.city;
+        const address = shop?.address;
+
         const handleDescription=()=>{
             setDescriptionState(!descriptionState);
         }
@@ -26,6 +31,10 @@ const Shop = ({shopId})=>{
                     <td>{user}</td>
                     <td>{title}</td>
                     <td>{description}<button onClick={handleDescription}>+</button></td>
+                    <td>{email}</td>
+                    <td>{tel}</td>
+                    <td>{city}</td>
+                    <td>{address}</td>
                     <td><button onClick={handleEdit}>Επεξεργασία</button></td>
                     <td><button onClick={handleShopHomePage}>Λεπτομέριες</button></td>
                 </tr>

@@ -1,14 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import { useGetShopQuery } from "../shops/shopsApiSlice";
 import { useMakeAppointmentMutation } from "../appointments/appointmentsApiSlice";
 import { useState } from "react";
 
 const ShopPublicPage = () => {
+  const navigate = useNavigate();
+
   const [name,setName] = useState('');
   const [lastName,setLastName]= useState('');
-  const [customerName,setCustomerName] = useState('');
   const [date,setDate] = useState('');
   const [service,setService] = useState('');
+  const [email,setEmail] = useState('');
+  const [time,setTime] = useState('');
   const {id} = useParams();
 
   const {
@@ -25,17 +28,20 @@ const ShopPublicPage = () => {
   }] = useMakeAppointmentMutation();
 
 
-  const canSave = [name,lastName,date,service].every(Boolean) && !isLoading;
+  const canSave = [name,lastName,date,service,time,email].every(Boolean) && !isLoading;
 
   const handleAppSubmit = ()=>{
     if(canSave)
     {
-      setAppointment({id,date,service,customerName:name+" "+lastName});
+      setAppointment({id,date,service,customerName:name+" "+lastName,time,email});
     }
     setName('');
     setLastName('');
     setDate('');
     setService('');
+    setTime('');
+    setEmail('');
+    navigate(`/shops/public/${id}/appsuccess`)
   }
 
 
@@ -69,6 +75,14 @@ const ShopPublicPage = () => {
           value={lastName}
         ></input>
             <br/>
+            <label htmlFor="email">Email : </label>
+        <input
+          onChange={(e)=>{setEmail(e.target.value)}}
+          id="email"
+          type="email"
+          value={email}
+        ></input>
+            <br/>
          <label htmlFor="service">Παροχή υπηρεσίας : </label>
         <input
          onChange={(e)=>{setService(e.target.value)}}
@@ -84,6 +98,14 @@ const ShopPublicPage = () => {
           type="date"
           value={date}
         ></input>
+            <label htmlFor="time">Ημερομηνία : </label>
+        <input
+         onChange={(e)=>{setTime(e.target.value)}}
+          id="time"
+          type="time"
+          value={time}
+        ></input>
+        <br/>
         <br/>
         <button onClick={handleAppSubmit}>Επικύρωση Ραντεβού</button>
       </form>

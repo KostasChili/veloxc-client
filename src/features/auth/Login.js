@@ -82,6 +82,7 @@ const Login = () => {
               type="checkbox"
               onChange={handleToggle}
               check={persist}
+              checked={persist}
             />
             Κράτησε με Συνδεδεμένο
           </label>

@@ -22,11 +22,12 @@ const ShopPage = () => {
   if(isLoading) content = <p>Loading...</p>
   if(isSuccess) 
 {
-  const tableContent = data.appointments.map(d=>(
+  const tableContent = data.appointments.map(d=>( 
   <tr key={d._id}>
     <td>{d.customerName}</td>
     <td>{d.service}</td>
     <td>{d.date}</td>
+    <td>{new Date(d.createdAt).toLocaleString('el-GB',{day:'numeric',month:'long'})}</td>
     <td>{d.active?"ενεργό":"ακυρωμένο"}</td>
   </tr>
   ))
@@ -42,6 +43,7 @@ const ShopPage = () => {
             <th>Όνομα Πελάτη</th>
             <th>Υπηρεσία</th>
             <th>Ημερομηνία</th>
+            <th>Δημιουργήθηκε</th>
             <th>Κατάσταστη</th>
           </tr>
         </thead>

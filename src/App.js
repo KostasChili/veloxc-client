@@ -15,6 +15,7 @@ import NewUserForm from "./features/users/NewUserForm";
 import ShopPublicPage from "./features/public/ShopPublicPage";
 import CreateAppointment from "./features/shops/CreateAppointment";
 import PersistLogin from "./features/auth/PersistLogin";
+import AppSuccess from "./features/public/AppSuccess";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
           <Route path="/users/new" element={<NewUserForm />} />
           <Route path="/shops/public/:id">
             <Route index element={<ShopPublicPage />} />
-          </Route>{" "}
+            <Route path="appsuccess" element={<AppSuccess />} />
+          </Route>
           {/*public route to set an appointment */}
           <Route element={<PersistLogin />}>
             <Route element={<Prefetch />}>

@@ -41,6 +41,10 @@ const ShopsList = () => {
         <th scope="col" >Ιδιοκτήτης</th>
         <th scope="col" >Επωνυμία</th>
         <th scope="col" >Περιγραφή</th>
+        <th scope="col" >Email</th>
+        <th scope="col" >Τηλέφωνο Επικοινωνίας</th>
+        <th scope="col" >Πόλη</th>
+        <th scope="col" >Διεύθυνση</th>
       </tr>
     </thead> 
       <tbody>
