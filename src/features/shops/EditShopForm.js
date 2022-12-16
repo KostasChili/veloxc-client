@@ -19,7 +19,7 @@ const EditShopForm = (shop) => {
 
       const [title,setTitle] = useState(shop.shop.title);
       const [description,setDescription] = useState(shop.shop.description);
-      const [username,setUsername] = useState(shop.shop.username);
+      const [username,setUsername] = useState(shop.shop.user);
       const [shopId,setShopId] = useState(shop.shop.id);
       const [shopPublicLink,setShopPublicLink] = useState(shop.shop.publicLink);
 

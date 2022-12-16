@@ -12,6 +12,7 @@ const Shop = ({shopId})=>{
     const [descriptionState,setDescriptionState]=useState(false);
 
     if(shop){
+        console.log(shop)
         const user = shop?.shopkeeper;
         const title = shop?.title;
         const handleDescription=()=>{
