@@ -9,7 +9,9 @@ const ShopsList = () => {
     isError,
     error
   }= useGetShopsQuery({
-    pollingInterval:3000,
+    pollingInterval:60000,
+    refetchOnFocus:true,
+    refetchOnMountOrArgChange:true
     
   });
 

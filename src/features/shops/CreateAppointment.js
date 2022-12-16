@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useGetShopQuery } from "../shops/shopsApiSlice";
 import { useMakeAppointmentMutation } from "../appointments/appointmentsApiSlice";
 import { useState } from "react";
 
-const ShopPublicPage = () => {
+const CreateAppointment = () => {
+    const navigate = useNavigate();
   const [name,setName] = useState('');
   const [lastName,setLastName]= useState('');
   const [customerName,setCustomerName] = useState('');
@@ -36,6 +37,7 @@ const ShopPublicPage = () => {
     setLastName('');
     setDate('');
     setService('');
+    navigate(`/dash/shops/${id}/appointments`)
   }
 
 
@@ -47,11 +49,11 @@ const ShopPublicPage = () => {
     content = (
    <>
       <section>
-       <h2>Καλώς ήρθατε στη σελίδα του {shop.title}</h2>
+       <h2>{shop.title}</h2>
         <p>{shop.description}</p>
      </section>
      <section>
-      <h2>Κλείστε Ραντεβού Τώρα</h2>
+      <h2>Δημιουργία Ραντεβού</h2>
       <form onSubmit={(e)=>e.preventDefault()}>
         <label htmlFor="name">Όνομα : </label>
         <input 
@@ -96,4 +98,4 @@ const ShopPublicPage = () => {
  
 }
 
-export default ShopPublicPage
+export default CreateAppointment

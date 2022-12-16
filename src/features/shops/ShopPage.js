@@ -1,17 +1,65 @@
-import { useGetShopQuery } from "./shopsApiSlice"
-import { useParams } from "react-router-dom"
+import {useRetrieveAppointmentsQuery} from '../appointments/appointmentsApiSlice'
+import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 const ShopPage = () => {
+  const navigate = useNavigate();
   const {id} = useParams();
   const {
-    data:shop,
-  } = useGetShopQuery(id);
-  console.log(shop);
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useRetrieveAppointmentsQuery(id,{
+    pollingInterval:60000,
+    refetchOnFocus:true,
+    refetchOnMountOrArgChange:true
+  });
 
-  return(
-    <div>
-    <h1>Όλα τα ραντεβού για την επιχείρηση {shop?.title}</h1>
-    </div>
-  )
+
+  let content
+  if(isLoading) content = <p>Loading...</p>
+  if(isSuccess) 
+{
+  const tableContent = data.appointments.map(d=>(
+  <tr key={d._id}>
+    <td>{d.customerName}</td>
+    <td>{d.service}</td>
+    <td>{d.date}</td>
+    <td>{d.active?"ενεργό":"ακυρωμένο"}</td>
+  </tr>
+  ))
+
+
+    content = (
+      <>
+      <h2>Όλα τα ρανεβού για :</h2>
+      <p>{data?.title}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Όνομα Πελάτη</th>
+            <th>Υπηρεσία</th>
+            <th>Ημερομηνία</th>
+            <th>Κατάσταστη</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableContent}
+        </tbody>
+      </table>
+      <button onClick={()=>navigate(`/dash/shops/${id}/createAppointment`)}>Καταχώρηση ραντεβού</button>
+      </>
+      )
+      
+  
+ 
+}
+
+
+
+  return content
 
 }
 

@@ -21,6 +21,7 @@ const EditShopForm = (shop) => {
       const [description,setDescription] = useState(shop.shop.description);
       const [username,setUsername] = useState(shop.shop.username);
       const [shopId,setShopId] = useState(shop.shop.id);
+      const [shopPublicLink,setShopPublicLink] = useState(shop.shop.publicLink);
 
 
 
@@ -31,6 +32,7 @@ const EditShopForm = (shop) => {
             setDescription("");
             setUsername("");
             setShopId("");
+            setShopPublicLink("");
             navigate('/dash/shops');
         }
       },[isSuccess,isDelSuccess,navigate]);
@@ -116,6 +118,15 @@ const EditShopForm = (shop) => {
                     id="shop-Id"
                     className="form__select"
                     value={shopId}
+                    readOnly
+                >
+                </input>
+                <label  htmlFor="public-link">
+                    Σύνδεσμος:</label>
+                <input
+                    id="public-link"
+                    className="form__select"
+                    value={shopPublicLink}
                     readOnly
                 >
                 </input>

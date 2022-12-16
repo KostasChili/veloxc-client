@@ -7,7 +7,11 @@ const UsersList = () => {
     data:users, //we get back data that we rename to users
     isLoading,  //we have several states we can check
     isSuccess,
-  } = useGetUsersQuery();
+  } = useGetUsersQuery({
+    pollingInterval:60000,
+    refetchOnFocus:true,
+    refetchOnMountOrArgChange:true
+  });
 
   let content 
 

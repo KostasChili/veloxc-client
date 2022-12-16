@@ -1,4 +1,5 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { setCredentials } from "../../features/auth/authSlice";
 
 
 const baseQuery = fetchBaseQuery({
@@ -12,12 +13,36 @@ const baseQuery = fetchBaseQuery({
         }
         return headers
     }
-})
+});
+
+const baseQueryWithReauth = async (args,api,extraOptions) =>
+{
+    let result = await baseQuery(args,api,extraOptions);
+    if(result?.error?.status ===403){
+        console.log('Sending Refresh Token')
+        const refreshResult = await baseQuery('/auth/refresh',api,extraOptions);
+
+        if(refreshResult?.data){
+            //store new Token
+            api.dispatch(setCredentials({...refreshResult.data}));
+
+            result  = await baseQuery(args,api,extraOptions);
+        }
+        else{
+            if(refreshResult?.error?.status===403)
+            {
+                refreshResult.error.data.message = 'Your login has expired. ';
+            }
+            return refreshResult
+        }
+    }
+   return result
+}
 
 //define single api slice object
 export const apiSlice = createApi({
     //fetchBaseQuery similar to axios
-    baseQuery,
+    baseQuery:baseQueryWithReauth,
     tagTypes:['Shop','User','Appointment'],
     endpoints:builder =>({})
 });
