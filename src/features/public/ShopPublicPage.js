@@ -1,6 +1,6 @@
 import { useParams ,useNavigate} from "react-router-dom";
 import { useGetShopQuery } from "../shops/shopsApiSlice";
-import { useMakeAppointmentMutation } from "../appointments/appointmentsApiSlice";
+import { useMakeAppointmentMutation,useRetrieveAppointmentsPublicQuery } from "../appointments/appointmentsApiSlice";
 import { useState } from "react";
 
 const ShopPublicPage = () => {
@@ -22,11 +22,25 @@ const ShopPublicPage = () => {
     error
   }= useGetShopQuery(id);
 
-  const [setAppointment,{
-    isLoading:isAppLoading,
-    isSuccess:isAppSuccess
-  }] = useMakeAppointmentMutation();
+  const {
+    data:apps,
+    isLoading:isAppsLoading,
+    isSuccess:isAppSuccess,
+    isError:isAppError,
+    error:appError
 
+  }= useRetrieveAppointmentsPublicQuery(id);
+
+  const [setAppointment,{
+    isLoading:isMakeAppLoading,
+    isSuccess:isMakeAppSuccess,
+    isError:isMakeAppError,
+    error:makeAppError
+  }] = useMakeAppointmentMutation(id);
+
+  if(isAppSuccess){
+    console.log(apps);
+  }
 
   const canSave = [name,lastName,date,service,time,email].every(Boolean) && !isLoading;
 
@@ -98,7 +112,7 @@ const ShopPublicPage = () => {
           type="date"
           value={date}
         ></input>
-            <label htmlFor="time">Ημερομηνία : </label>
+            <label htmlFor="time">Ώρα : </label>
         <input
          onChange={(e)=>{setTime(e.target.value)}}
           id="time"
