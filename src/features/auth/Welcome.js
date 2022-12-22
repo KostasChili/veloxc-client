@@ -1,24 +1,30 @@
 import { Link } from "react-router-dom";
+import { Button, Stack, Typography } from "@mui/material";
 
 const Welcome = () => {
   const date = new Date();
   const today = new Intl.DateTimeFormat("el-GB", {
     dateStyle: "full",
-    imeStyle: "long",
+    timeStyle: "short",
   }).format(date);
 
-  const content = (
-    <section >
-      <p>{today}</p>
-      <h1>Καλώς Ήρθες !</h1>
-      <p>
-        <button><Link to="/dash/shops">Οι επιχειρήσεις μου</Link></button>
-       <button> <Link to='/dash/users/id'>Το προφίλ μου</Link></button>
-        <button><Link to='/dash/shops/new'>Καταχώρηση επιχείρησης</Link></button>
-      </p>
-    </section>
+  return (
+    <Stack spacing ={3}>
+      <Typography>{today}</Typography>
+      <Typography variant="h4">Καλώς Ήρθες !</Typography>
+      <Stack spacing={2} direction={{xs:'column',sm:'row'}}>
+        <Button variant="contained" href="/dash/shops">
+          Οι επιχειρησεις μου
+        </Button>
+        <Button variant="contained" href="/dash/users/id">
+          Το προφιλ μου
+        </Button>
+        <Button variant="contained" href="/dash/shops/new">
+          Καταχωρηση επιχειρησης
+        </Button>
+      </Stack>
+    </Stack>
   );
-  return content;
 };
 
 export default Welcome;

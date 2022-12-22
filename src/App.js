@@ -16,15 +16,27 @@ import ShopPublicPage from "./features/public/ShopPublicPage";
 import CreateAppointment from "./features/shops/CreateAppointment";
 import PersistLogin from "./features/auth/PersistLogin";
 import AppSuccess from "./features/public/AppSuccess";
+import CssBaseline from '@mui/material/CssBaseline';
+import { Container } from "@mui/material";
+
+import NavBar from "./components/NavBar";
+
+
+
 
 function App() {
   return (
-    <div className="App">
+    <>
+    
+      <CssBaseline />
+      <Container maxWidth="lg">
+      <NavBar />
       <Routes>
+      
         <Route path="/" element={<Layout />}>
           <Route index element={<Public />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/users/new" element={<NewUserForm />} />
+          <Route path="/register" element={<NewUserForm />} />
           <Route path="/shops/public/:id">
             <Route index element={<ShopPublicPage />} />
             <Route path="appsuccess" element={<AppSuccess />} />
@@ -54,7 +66,8 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </div>
+      </Container>
+    </>
   );
 }
 

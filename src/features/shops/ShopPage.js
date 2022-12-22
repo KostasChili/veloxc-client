@@ -27,6 +27,7 @@ const ShopPage = () => {
     <td>{d.customerName}</td>
     <td>{d.service}</td>
     <td>{d.date}</td>
+    <td>{d.time}</td>
     <td>{new Date(d.createdAt).toLocaleString('el-GB',{day:'numeric',month:'long'})}</td>
     <td>{d.active?"ενεργό":"ακυρωμένο"}</td>
   </tr>
@@ -43,6 +44,7 @@ const ShopPage = () => {
             <th>Όνομα Πελάτη</th>
             <th>Υπηρεσία</th>
             <th>Ημερομηνία</th>
+            <th>Ώρα</th>
             <th>Δημιουργήθηκε</th>
             <th>Κατάσταστη</th>
           </tr>

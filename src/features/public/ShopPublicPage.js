@@ -38,9 +38,6 @@ const ShopPublicPage = () => {
     error:makeAppError
   }] = useMakeAppointmentMutation(id);
 
-  if(isAppSuccess){
-    console.log(apps);
-  }
 
   const canSave = [name,lastName,date,service,time,email].every(Boolean) && !isLoading;
 

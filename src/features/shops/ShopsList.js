@@ -1,65 +1,55 @@
 import { useGetShopsQuery } from "./shopsApiSlice";
-import Shop from '../shops/Shop';
+import Shop from "../shops/Shop";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+
 
 const ShopsList = () => {
   const {
-    data:shops,
+    data: shops,
     isLoading,
     isSuccess,
     isError,
-    error
-  }= useGetShopsQuery({
-    pollingInterval:60000,
-    refetchOnFocus:true,
-    refetchOnMountOrArgChange:true
-    
+    error,
+  } = useGetShopsQuery({
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
   });
 
+  let content;
 
- let content 
+  if (!shops) content = <p>Loading...</p>;
 
- 
- if(!shops) content = <p>Loading...</p>
+  if (isLoading) content = <p>Loading....</p>;
 
- if(isLoading) content = <p>Loading....</p>
+  if (isError) content = <p>{error?.data?.message}</p>;
 
- if(isError) content = <p>{error?.data?.message}</p>
+  if (isSuccess) {
+    const { ids } = shops;
 
- if(isSuccess)
- {
-  const {ids} = shops;
+    const tableContent = ids?.length
+      ? ids.map((shopId) => <Shop key={shopId} shopId={shopId} />)
+      : null;
+    content = (
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Ιδιοκτήτης</TableCell>
+              <TableCell align="center">Επωνυμία</TableCell>
+              <TableCell align="center">Περιγραφή</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Τηλέφωνο</TableCell>
+              <TableCell align="center">Διεύθυνση</TableCell>
+              <TableCell align="center">Ενέργιες</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{tableContent}</TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+  return content;
+};
 
-
-  const tableContent = ids?.length
-  ?ids.map(shopId=><Shop key={shopId} shopId={shopId}/>)
-  :null
-  content = (
-    <>
-    <table >
-    <thead >
-      <tr>
-        <th scope="col" >Ιδιοκτήτης</th>
-        <th scope="col" >Επωνυμία</th>
-        <th scope="col" >Περιγραφή</th>
-        <th scope="col" >Email</th>
-        <th scope="col" >Τηλέφωνο Επικοινωνίας</th>
-        <th scope="col" >Πόλη</th>
-        <th scope="col" >Διεύθυνση</th>
-      </tr>
-    </thead> 
-      <tbody>
-      {tableContent}
-      </tbody>
-  </table>
-  <div>
-  </div>
-  </>
-  )
-
-  
- }
- return content;
-
-}
-
-export default ShopsList
+export default ShopsList;
