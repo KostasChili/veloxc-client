@@ -38,7 +38,20 @@ export default function CreateAppointment() {
 
   }= useRetrieveAppointmentsPublicQuery(id);
 
-  // console.log(apps)
+
+    let availableSlots=null;
+    if(isAppsSuccess){
+      let occTimeSlots = apps.appList.map((ap)=>{
+        return `${ap.startTime}-${ap.endTime}`
+      })
+      availableSlots = apps.allTimeSlots.filter(
+        (item)=>!occTimeSlots.includes(item)
+      );
+    }
+
+    console.log(availableSlots)
+    
+   
 
   const canSave =
     [name, lastName, date, service, startTime, email].every(Boolean) &&

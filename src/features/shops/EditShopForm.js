@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUpdateShopMutation, useDeleteShopMutation } from "./shopsApiSlice";
 import {Box, Container, CssBaseline, Grid, TextField, Typography,Button} from '@mui/material';
+import CopyToClipBoardButton from "../../components/CopyToClipBoardButton";
 
 
 
@@ -23,6 +24,7 @@ const EditShopForm = (shop) => {
   const [shopPublicLink, setShopPublicLink] = useState(shop.shop.publicLink);
   const [opensAt,setOpensAt] = useState(shop.shop.opensAt);
   const [closesAt,setClosesAt] = useState(shop.shop.closesAt);
+ 
 
   useEffect(() => {
     if (isSuccess || isDelSuccess) {
@@ -40,6 +42,7 @@ const EditShopForm = (shop) => {
       navigate("/dash/shops");
     }
   }, [isSuccess, isDelSuccess, navigate]);
+
 
   const canSave = [title, description,tel,email,city,address,closesAt,opensAt].every(Boolean) && !isLoading;
 
@@ -200,7 +203,9 @@ const EditShopForm = (shop) => {
                 />
               </Grid>
               <Grid item xs={12}>
+              <CopyToClipBoardButton/>
                 <TextField
+               
                 InputLabelProps={{shrink:true}}
                   inputProps={{readOnly:true}}
                   fullWidth

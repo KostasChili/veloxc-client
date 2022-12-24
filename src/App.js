@@ -16,24 +16,18 @@ import ShopPublicPage from "./features/public/ShopPublicPage";
 import CreateAppointment from "./features/shops/CreateAppointment";
 import PersistLogin from "./features/auth/PersistLogin";
 import AppSuccess from "./features/public/AppSuccess";
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from "@mui/material/CssBaseline";
 import { Container } from "@mui/material";
 
 import NavBar from "./components/NavBar";
 
-
-
-
 function App() {
   return (
     <>
-    
       <CssBaseline />
       <Container maxWidth="lg">
-      <NavBar />
-      <Routes>
-      
-        <Route path="/" element={<Layout />}>
+        <NavBar />
+        <Routes>
           <Route index element={<Public />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<NewUserForm />} />
@@ -42,30 +36,32 @@ function App() {
             <Route path="appsuccess" element={<AppSuccess />} />
           </Route>
           {/*public route to set an appointment */}
+
           <Route element={<PersistLogin />}>
-            <Route element={<Prefetch />}>
-              <Route path="dash" element={<DashLayout />}>
-                <Route index element={<Welcome />} />
-                <Route path="users">
-                  <Route index element={<UsersList />} />
-                  <Route path=":id" element={<EditUser />} />
-                </Route>
-                <Route path="shops">
-                  <Route index element={<ShopsList />} />{" "}
-                  {/* an admin will be able to see all shop but a shopkeeper will be able to see only his shops*/}
-                  <Route path="new" element={<NewShopForm />} />
-                  <Route path=":id" element={<EditShop />}></Route>
-                  <Route path=":id/appointments" element={<ShopPage />} />
-                  <Route
-                    path=":id/createAppointment"
-                    element={<CreateAppointment />}
-                  />
+            <Route path="/" element={<Layout />}>
+              <Route element={<Prefetch />}>
+                <Route path="dash" element={<DashLayout />}>
+                  <Route index element={<Welcome />} />
+                  <Route path="users">
+                    <Route index element={<UsersList />} />
+                    <Route path=":id" element={<EditUser />} />
+                  </Route>
+                  <Route path="shops">
+                    <Route index element={<ShopsList />} />{" "}
+                    {/* an admin will be able to see all shop but a shopkeeper will be able to see only his shops*/}
+                    <Route path="new" element={<NewShopForm />} />
+                    <Route path=":id" element={<EditShop />}></Route>
+                    <Route path=":id/appointments" element={<ShopPage />} />
+                    <Route
+                      path=":id/createAppointment"
+                      element={<CreateAppointment />}
+                    />
+                  </Route>
                 </Route>
               </Route>
             </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
       </Container>
     </>
   );

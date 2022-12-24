@@ -30,15 +30,15 @@ const NewShopForm = () => {
     }
   }, [isSuccess, navigate]);
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onDescriptionChanged = (e) => setDescription(e.target.value);
+
 
   const canSave = [title, description,tel,email,city,address,opensAt,closesAt].every(Boolean) && !isLoading;
 
   const onSaveShopClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
-      await addNewShop({ title, description, tel, email, city, address,opensAt,closesAt });
+      const res = await addNewShop({ title, description, tel, email, city, address,opensAt,closesAt });
+      console.log(res)
     }
   };
 
@@ -54,10 +54,14 @@ const NewShopForm = () => {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography  variant="h5" marginBottom={4}>
             Δημιουργία Επιχείρησης
           </Typography>
-          <Box component="form" noValidate onSubmit={onSaveShopClicked} sx={{ mt: 3 }}>
+          <Typography variant='caption'>
+            *Παρακαλούμε να συμπληρώσετε προσεκτικά όλα τα παρακάτω πεδία καθώς είναι όλα υποχρεωτικά.<br/>
+            **Σε περίπτωση λάθους ή αλλαγής στοιχείων μπορείτε να τροποιήσετε και μετά την καταχώρηση της επιχείρησης
+          </Typography>
+          <Box variant="form" noValidate  sx={{ mt: 3 }}>
             <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TextField
@@ -147,7 +151,7 @@ const NewShopForm = () => {
               </Grid>
             </Grid>
             <Button
-              type="submit"
+             onClick={onSaveShopClicked}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
