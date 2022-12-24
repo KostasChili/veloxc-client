@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUpdateShopMutation, useDeleteShopMutation } from "./shopsApiSlice";
+import {Box, Container, CssBaseline, Grid, TextField, Typography,Button} from '@mui/material';
+
+
 
 const EditShopForm = (shop) => {
   const [updateShop, { isLoading, isSuccess }] = useUpdateShopMutation();
@@ -18,6 +21,8 @@ const EditShopForm = (shop) => {
   const [address, setAddress] = useState(shop.shop.address);
   const [shopId, setShopId] = useState(shop.shop.id);
   const [shopPublicLink, setShopPublicLink] = useState(shop.shop.publicLink);
+  const [opensAt,setOpensAt] = useState(shop.shop.opensAt);
+  const [closesAt,setClosesAt] = useState(shop.shop.closesAt);
 
   useEffect(() => {
     if (isSuccess || isDelSuccess) {
@@ -30,11 +35,13 @@ const EditShopForm = (shop) => {
       setAddress("");
       setShopId("");
       setShopPublicLink("");
+      setOpensAt("");
+      setClosesAt("");
       navigate("/dash/shops");
     }
   }, [isSuccess, isDelSuccess, navigate]);
 
-  const canSave = [title, description,tel,email,city,address].every(Boolean) && !isLoading;
+  const canSave = [title, description,tel,email,city,address,closesAt,opensAt].every(Boolean) && !isLoading;
 
   const onSaveShopClicked = async (e) => {
     if (canSave) {
@@ -42,6 +49,8 @@ const EditShopForm = (shop) => {
         id: shopId,
         title,
         description,
+        opensAt,
+        closesAt,
         tel,
         email,
         city,
@@ -61,7 +70,169 @@ const EditShopForm = (shop) => {
 
   const content = (
     <>
-      <form onSubmit={(e) => e.preventDefault()}>
+     <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Επεξεργασία Επιχείρησης
+          </Typography>
+          <Box component="form" noValidate onSubmit={(e)=>e.preventDefault} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="title"
+                  label="Όνομασία Επιχείρησης"
+                  InputLabelProps={{shrink:true}}
+                  name="title"
+                  autoFocus
+                  value={title}
+                  onChange={(e)=>setTitle(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} >
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  name="description"
+                  required
+                  fullWidth
+                  id="description"
+                  label="Περιγραφή Επιχείρησης"
+                  value={description}
+                  onChange={(e)=>setDescription(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  id="opensAt"
+                  label="Ανοίγει"
+                  name="opensAt"
+                  value={opensAt}
+                  onChange={(e)=>setOpensAt(e.target.value)}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  id="closesAt"
+                  label="Κλείνει"
+                  name="closesAt"
+                  value={closesAt}
+                  onChange={(e)=>setClosesAt(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  name="email"
+                  label="Email"
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  name="tel"
+                  label="Τηλέφωνο"
+                  type="tel"
+                  id="tel"
+                  value={tel}
+                  onChange={(e)=>setTel(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  name="city"
+                  label="Πόλη"
+                  type="city"
+                  id="city"
+                  value={city}
+                  onChange={(e)=>setCity(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  required
+                  fullWidth
+                  name="address"
+                  label="Διεύθυνση"
+                  type="address"
+                  id="address"
+                  value={address}
+                  onChange={(e)=>setAddress(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  inputProps={{readOnly:true}}
+                  fullWidth
+                  name="user"
+                  label="User id"
+                  type="user"
+                  id="user"
+                  value={shop.shop.user}
+                  onChange={(e)=>setAddress(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                InputLabelProps={{shrink:true}}
+                  inputProps={{readOnly:true}}
+                  fullWidth
+                  name="publicLink"
+                  label="Δημόσιος Σύνδεσμος Επιχείρησης"
+                  type="publicLink"
+                  id="publicLink"
+                  value={shop.shop.publicLink}
+                  onChange={(e)=>setAddress(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Button onClick={onSaveShopClicked}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={!canSave}
+            >
+              Τροποποίηση Επιχείρησης
+            </Button>
+            <Button color="warning" onClick={onDeleteShopClicked}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Διαγραφή Επιχείρησης
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+      {/* <form onSubmit={(e) => e.preventDefault()}>
+
         <div>
           <h2>Επεξεργασία καταστήματος {shop.title}</h2>
           <div className="form__action-buttons">
@@ -164,8 +335,8 @@ const EditShopForm = (shop) => {
             ></input>
             <br />
           </div>
-        </div>
-      </form>
+        </div> 
+      </form> */}
     </>
   );
 

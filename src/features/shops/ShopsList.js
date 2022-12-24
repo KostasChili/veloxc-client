@@ -38,10 +38,11 @@ const ShopsList = () => {
               <TableCell align="center">Ιδιοκτήτης</TableCell>
               <TableCell align="center">Επωνυμία</TableCell>
               <TableCell align="center">Περιγραφή</TableCell>
+              <TableCell align="center">Ωρες Λειτουργίας</TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center">Τηλέφωνο</TableCell>
               <TableCell align="center">Διεύθυνση</TableCell>
-              <TableCell align="center">Ενέργιες</TableCell>
+              <TableCell align="center">Ενέργειες</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{tableContent}</TableBody>

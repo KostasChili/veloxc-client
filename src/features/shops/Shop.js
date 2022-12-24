@@ -17,13 +17,15 @@ const Shop = ({ shopId }) => {
     const tel = shop?.tel;
     const city = shop?.city;
     const address = shop?.address;
+    const opensAt = shop?.opensAt;
+    const closesAt = shop?.closesAt;
 
     const handleDescription = () => {
       setDescriptionState(!descriptionState);
     };
     const description = descriptionState
       ? shop?.description
-      : shop?.description.substring(0, 20);
+      : shop?.description.substring(0, 20)+"...";
     const handleEdit = () => navigate(`/dash/shops/${shopId}`);
     const handleShopHomePage = () => navigate(`${shopId}/appointments`);
     return (
@@ -34,6 +36,7 @@ const Shop = ({ shopId }) => {
           {description}
           <button onClick={handleDescription}>+</button>
         </TableCell>
+        <TableCell align="center">{opensAt} με {closesAt}</TableCell>
         <TableCell align="center">{email}</TableCell>
         <TableCell align="center">{tel}</TableCell>
         <TableCell align="center">

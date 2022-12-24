@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddNewShopMutation } from "./shopsApiSlice";
+import {Box, Button, Container, CssBaseline, Grid, TextField, Typography} from '@mui/material';
 
 const NewShopForm = () => {
   const [addNewShop, { isLoading, isSuccess }] = useAddNewShopMutation();
@@ -12,6 +13,8 @@ const NewShopForm = () => {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [opensAt,setOpensAt] = useState("");
+  const [closesAt,setClosesAt] = useState("");
 
   useEffect(() => {
     if (isSuccess) {
@@ -21,6 +24,8 @@ const NewShopForm = () => {
       setEmail("");
       setCity("");
       setAddress("");
+      setOpensAt("");
+      setClosesAt("");
       navigate("/dash/shops");
     }
   }, [isSuccess, navigate]);
@@ -28,18 +33,132 @@ const NewShopForm = () => {
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onDescriptionChanged = (e) => setDescription(e.target.value);
 
-  const canSave = [title, description,tel,email,city,address].every(Boolean) && !isLoading;
+  const canSave = [title, description,tel,email,city,address,opensAt,closesAt].every(Boolean) && !isLoading;
 
   const onSaveShopClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
-      await addNewShop({ title, description, tel, email, city, address });
+      await addNewShop({ title, description, tel, email, city, address,opensAt,closesAt });
     }
   };
 
   const content = (
     <>
-      <form onSubmit={onSaveShopClicked}>
+     <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Δημιουργία Επιχείρησης
+          </Typography>
+          <Box component="form" noValidate onSubmit={onSaveShopClicked} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="title"
+                  label="Όνομασία Επιχείρησης"
+                  name="title"
+                  autoFocus
+                  onChange={(e)=>setTitle(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} >
+                <TextField
+                  autoComplete="given-name"
+                  name="description"
+                  required
+                  fullWidth
+                  id="description"
+                  label="Περιγραφή Επιχείρησης"
+                  onChange={(e)=>setDescription(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="opensAt"
+                  label="Ανοίγει"
+                  name="opensAt"
+                  onChange={(e)=>setOpensAt(e.target.value)}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="closesAt"
+                  label="Κλείνει"
+                  name="closesAt"
+                  onChange={(e)=>setClosesAt(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="email"
+                  label="Email"
+                  type="email"
+                  id="email"
+                  onChange={(e)=>setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="tel"
+                  label="Τηλέφωνο"
+                  type="tel"
+                  id="tel"
+                  onChange={(e)=>setTel(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="city"
+                  label="Πόλη"
+                  type="city"
+                  id="city"
+                  onChange={(e)=>setCity(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="address"
+                  label="Διεύθυνση"
+                  type="address"
+                  id="address"
+                  onChange={(e)=>setAddress(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={!canSave}
+            >
+              Καταχώρηση Επιχείρησης
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+      {/* <form onSubmit={onSaveShopClicked}>
         <h2>Δημιουργία επιχείρησης</h2>
 
         <label htmlFor="title">Τίτλος Επιχείρησης:</label>
@@ -59,6 +178,28 @@ const NewShopForm = () => {
           value={description}
           onChange={onDescriptionChanged}
         ></textarea>
+        <br />
+        <label htmlFor="opensAt">Ανοιγμα:</label>
+        <input
+          id="opensAt"
+          type="opensAt"
+          autoComplete="off"
+          value={opensAt}
+          onChange={(e) => {
+            setOpensAt(e.target.value);
+          }}
+        ></input>
+        <br />
+        <label htmlFor="closesAt">Κλείσιμο:</label>
+        <input
+          id="closesAt"
+          type="closesAt"
+          autoComplete="off"
+          value={closesAt}
+          onChange={(e) => {
+            setClosesAt(e.target.value);
+          }}
+        ></input>
         <br />
 
         <label htmlFor="email">Email Επιχείρησης:</label>
@@ -111,7 +252,7 @@ const NewShopForm = () => {
             Αποθήκευση
           </button>
         </div>
-      </form>
+      </form> */}
     </>
   );
 
