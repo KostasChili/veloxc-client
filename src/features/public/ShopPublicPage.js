@@ -1,18 +1,28 @@
-
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetShopQuery } from "../shops/shopsApiSlice";
-import { useMakeAppointmentMutation ,useRetrieveAppointmentsPublicQuery} from "../appointments/appointmentsApiSlice";
-import { useState } from "react";
-import { Button, Typography } from "@mui/material";
+import {
+  useMakeAppointmentMutation,
+  useRetrieveAppointmentsPublicQuery,
+} from "../appointments/appointmentsApiSlice";
+import { useEffect, useState } from "react";
+import { Button, MenuItem, Typography } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import {getDate,getMonth,getYear,format,addDays} from "date-fns";
+
 
 export default function CreateAppointment() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [date, setDate] = useState("");
+  const [canSelectDate, setCanSelectDate] = useState(false);
+  const [dateFormated, setDateFormated] = useState(addDays((new Date()),1));
+  const [date,setDate]= useState("");
   const [service, setService] = useState("");
+  const [canSelectTime, setCanSelectTime] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [email, setEmail] = useState("");
   const [comments, setComments] = useState("");
@@ -29,33 +39,58 @@ export default function CreateAppointment() {
   const [setAppointment, { isLoading: isAppLoading, isSuccess: isAppSuccess }] =
     useMakeAppointmentMutation();
 
-      const {
-    data:apps,
-    isLoading:isAppsLoading,
-    isSuccess:isAppsSuccess,
-    isError:isAppError,
-    error:appError
+  const {
+    data: apps,
+    isLoading: isAppsLoading,
+    isSuccess: isAppsSuccess,
+    isError: isAppError,
+    error: appError,
+  } = useRetrieveAppointmentsPublicQuery(id);
 
-  }= useRetrieveAppointmentsPublicQuery(id);
+  let availableSlots = null;
+  if (isAppsSuccess) {
+    let occTimeSlots = apps.appList.map((ap) => {
+      return `${ap.startTime}-${ap.endTime}`;
+    });
+    availableSlots = apps.allTimeSlots.filter(
+      (item) => !occTimeSlots.includes(item)
+    );
+  }
+
+ 
 
 
-    let availableSlots=null;
-    if(isAppsSuccess){
-      let occTimeSlots = apps.appList.map((ap)=>{
-        return `${ap.startTime}-${ap.endTime}`
-      })
-      availableSlots = apps.allTimeSlots.filter(
-        (item)=>!occTimeSlots.includes(item)
-      );
+  useEffect(() => {
+    if ((name, lastName, email, service) !== "") {
+      setCanSelectDate(true);
     }
+  }, [name, lastName, email, service]);
 
-    console.log(availableSlots)
-    
-   
+  useEffect(() => {
+    if (date) {
+      setCanSelectTime(true);
+    }
+  }, [date]);
+
+
+  {/* FUNCTIONS FOR THE DATE PICKER - TODO The date Picker could be moved to a component of its own with all function needed */}
+
+  const handleDateSubmit = (e)=>{
+    setDateFormated(e);
+    setDate(`${getDate(dateFormated)}-${getMonth(dateFormated)+1}-${getYear(dateFormated)}`);
+  }
+
+  function disableWeekends(date) {
+    return date.getDay() === 0 || date.getDay() === 6;
+  }
+
+
 
   const canSave =
     [name, lastName, date, service, startTime, email].every(Boolean) &&
     !isLoading;
+
+    {/* FORM SUBMITION */}
 
   const handleAppSubmit = () => {
     if (canSave) {
@@ -64,7 +99,7 @@ export default function CreateAppointment() {
         date,
         service,
         customerName: name + " " + lastName,
-        startTime,
+        startTime: startTime.split("-")[0],
         email,
         comments,
       });
@@ -76,7 +111,7 @@ export default function CreateAppointment() {
     setStartTime("");
     setEmail("");
     setComments("");
-    navigate(`/dash/shops/${id}/appointments`);
+    navigate(`/shops/public/${id}/appsuccess`);
   };
 
   return (
@@ -127,15 +162,6 @@ export default function CreateAppointment() {
         />
 
         <TextField
-          id="startTime"
-          label="Ωρα"
-          value={startTime}
-          onChange={(e) => {
-            setStartTime(e.target.value);
-          }}
-        />
-
-        <TextField
           id="comments"
           label="Σχόλια Για το Ραντεβού σας"
           multiline
@@ -144,24 +170,53 @@ export default function CreateAppointment() {
           onChange={(e) => setComments(e.target.value)}
         />
 
-        <label htmlFor="date">Ημερομηνία : </label>
-        <input
-          id="date"
-          type="date"
-          value={date}
-          onChange={(e) => {
-            setDate(e.target.value);
-          }}
-        ></input>
+      {/* DATE  PICKER CONDITIONAL RENDERING */}
+        {canSelectDate ? (
+          <>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                label="Ημερομηνία"
+                inputFormat="dd/MM/yyyy"
+                value={dateFormated}
+                onChange={handleDateSubmit}
+                shouldDisableDate={disableWeekends}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </>
+        ) : null}
+
+ {/* TIME  PICKER CONDITIONAL RENDERING */}
+        {canSelectTime ? (
+          <>
+            <TextField
+              select
+              id="startTime"
+              label="Ωρα"
+              value={startTime}
+              selected
+              onChange={(e) => {
+                setStartTime(e.target.value);
+              }}
+            >
+              {availableSlots !== null ? (
+                availableSlots.map((slot) => {
+                  return <MenuItem value={slot}>{slot}</MenuItem>;
+                })
+              ) : (
+                <MenuItem>Δεν υπάρχουν διαθέσημα ραντεβού</MenuItem>
+              )}
+            </TextField>
+          </>
+        ) : null}
       </div>
 
-      <Button onClick={handleAppSubmit} variant="contained">
+      <Button disabled={!canSave} onClick={handleAppSubmit} variant="contained">
         Καταχωρηση Ραντεβου
       </Button>
     </Box>
   );
 }
-
 
 // import { useParams ,useNavigate} from "react-router-dom";
 // import { useGetShopQuery } from "../shops/shopsApiSlice";
@@ -203,7 +258,6 @@ export default function CreateAppointment() {
 //     error:makeAppError
 //   }] = useMakeAppointmentMutation(id);
 
-
 //   const canSave = [name,lastName,date,service,startTime,email].every(Boolean) && !isLoading;
 
 //   const handleAppSubmit = ()=>{
@@ -220,7 +274,6 @@ export default function CreateAppointment() {
 //     navigate(`/shops/public/${id}/appsuccess`)
 //   }
 
-
 //   let content
 
 //   if(isLoading) content = <p>Loading...</p>
@@ -236,7 +289,7 @@ export default function CreateAppointment() {
 //       <h2>Κλείστε Ραντεβού Τώρα</h2>
 //       <form onSubmit={(e)=>e.preventDefault()}>
 //         <label htmlFor="name">Όνομα : </label>
-//         <input 
+//         <input
 //           onChange={(e)=>{setName(e.target.value)}}
 //           id="name"
 //           type="text"
@@ -291,7 +344,7 @@ export default function CreateAppointment() {
 //     )
 //   }
 //   return content
- 
+
 // }
 
 // export default ShopPublicPage
