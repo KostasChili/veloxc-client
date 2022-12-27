@@ -11,16 +11,16 @@ import { Button, MenuItem, Typography } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import {getDate,getMonth,getYear,format,addDays} from "date-fns";
-
+import { getDate, getMonth, getYear, format, addDays } from "date-fns";
+import { sl } from "date-fns/locale";
 
 export default function CreateAppointment() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [canSelectDate, setCanSelectDate] = useState(false);
-  const [dateFormated, setDateFormated] = useState(addDays((new Date()),1));
-  const [date,setDate]= useState("");
+  const [dateFormated, setDateFormated] = useState(addDays(new Date(), 1));
+  const [date, setDate] = useState("");
   const [service, setService] = useState("");
   const [canSelectTime, setCanSelectTime] = useState(false);
   const [startTime, setStartTime] = useState("");
@@ -52,13 +52,11 @@ export default function CreateAppointment() {
     let occTimeSlots = apps.appList.map((ap) => {
       return `${ap.startTime}-${ap.endTime}`;
     });
+
     availableSlots = apps.allTimeSlots.filter(
       (item) => !occTimeSlots.includes(item)
     );
   }
-
- 
-
 
   useEffect(() => {
     if ((name, lastName, email, service) !== "") {
@@ -72,25 +70,30 @@ export default function CreateAppointment() {
     }
   }, [date]);
 
-
-  {/* FUNCTIONS FOR THE DATE PICKER - TODO The date Picker could be moved to a component of its own with all function needed */}
-
-  const handleDateSubmit = (e)=>{
-    setDateFormated(e);
-    setDate(`${getDate(dateFormated)}-${getMonth(dateFormated)+1}-${getYear(dateFormated)}`);
+  {
+    /* FUNCTIONS FOR THE DATE PICKER - TODO The date Picker could be moved to a component of its own with all function needed */
   }
+
+  const handleDateSubmit = (e) => {
+    setDateFormated(e);
+    setDate(
+      `${getDate(dateFormated)}-${getMonth(dateFormated) + 1}-${getYear(
+        dateFormated
+      )}`
+    );
+  };
 
   function disableWeekends(date) {
     return date.getDay() === 0 || date.getDay() === 6;
   }
 
-
-
   const canSave =
     [name, lastName, date, service, startTime, email].every(Boolean) &&
     !isLoading;
 
-    {/* FORM SUBMITION */}
+  {
+    /* FORM SUBMITION */
+  }
 
   const handleAppSubmit = () => {
     if (canSave) {
@@ -170,7 +173,7 @@ export default function CreateAppointment() {
           onChange={(e) => setComments(e.target.value)}
         />
 
-      {/* DATE  PICKER CONDITIONAL RENDERING */}
+        {/* DATE  PICKER CONDITIONAL RENDERING */}
         {canSelectDate ? (
           <>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -186,7 +189,7 @@ export default function CreateAppointment() {
           </>
         ) : null}
 
- {/* TIME  PICKER CONDITIONAL RENDERING */}
+        {/* TIME  PICKER CONDITIONAL RENDERING */}
         {canSelectTime ? (
           <>
             <TextField

@@ -122,7 +122,7 @@ const ShopPage = () => {
             id="short-with"
             value={selectValue}
             label="Όνομα Πελάτη"
-            onChange={(e)=>setSelectValue(e.target.value)}
+            onChange={(e)=>{setSelectValue(e.target.value); setSearchTerm("")}}
           >
             <MenuItem value="customerName">Όνομα Πελάτη</MenuItem>
             <MenuItem value="service">Υπηρεσία</MenuItem>
