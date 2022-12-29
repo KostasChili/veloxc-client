@@ -1,11 +1,11 @@
 import { Button,Snackbar ,Typography} from "@mui/material";
 import { useState } from "react";
 
-const CopyToClipBoardButton = ()=>{
+const CopyToClipBoardButton = ({link})=>{
     const [open,setOpen] =useState(false);
     const handleClick = ()=> {
       setOpen(true)
-      navigator.clipboard.writeText(window.location)
+      navigator.clipboard.writeText(link)
 
     }
     return (

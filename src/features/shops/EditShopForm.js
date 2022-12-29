@@ -203,7 +203,7 @@ const EditShopForm = (shop) => {
                 />
               </Grid>
               <Grid item xs={12}>
-              <CopyToClipBoardButton/>
+              <CopyToClipBoardButton link={shopPublicLink}/>
                 <TextField
                
                 InputLabelProps={{shrink:true}}

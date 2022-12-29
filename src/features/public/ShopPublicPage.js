@@ -6,57 +6,45 @@ import {
   useMakeAppointmentMutation,
   useRetrieveAppointmentsPublicQuery,
 } from "../appointments/appointmentsApiSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, MenuItem, Typography } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { getDate, getMonth, getYear, format, addDays } from "date-fns";
-import { sl } from "date-fns/locale";
+import { getDate, getMonth, getYear, addDays } from "date-fns";
 
 export default function CreateAppointment() {
   const navigate = useNavigate();
+  const [skipAppsQuery, setSkipAppsQuery] = useState(true);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [canSelectDate, setCanSelectDate] = useState(false);
   const [dateFormated, setDateFormated] = useState(addDays(new Date(), 1));
   const [date, setDate] = useState("");
+  const [dateSubmitted, setDateSubmitted] = useState(false);
   const [service, setService] = useState("");
   const [canSelectTime, setCanSelectTime] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [email, setEmail] = useState("");
   const [comments, setComments] = useState("");
   const { id } = useParams();
+  const firstRender = useRef(true);
 
-  const {
-    data: shop,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetShopQuery(id);
+  {
+    /* QUERIES */
+  }
+  const { data: shop, isLoading } = useGetShopQuery(id);
 
-  const [setAppointment, { isLoading: isAppLoading, isSuccess: isAppSuccess }] =
+  const [setAppointment, { isSuccess: isAppSuccess }] =
     useMakeAppointmentMutation();
 
   const {
     data: apps,
     isLoading: isAppsLoading,
     isSuccess: isAppsSuccess,
-    isError: isAppError,
-    error: appError,
-  } = useRetrieveAppointmentsPublicQuery(id);
-
-  let availableSlots = null;
-  if (isAppsSuccess) {
-    let occTimeSlots = apps.appList.map((ap) => {
-      return `${ap.startTime}-${ap.endTime}`;
-    });
-
-    availableSlots = apps.allTimeSlots.filter(
-      (item) => !occTimeSlots.includes(item)
-    );
-  }
+    isError: isAppsError,
+    error: appsError,
+  } = useRetrieveAppointmentsPublicQuery({ id, date }, { skip: skipAppsQuery });
 
   useEffect(() => {
     if ((name, lastName, email, service) !== "") {
@@ -65,35 +53,54 @@ export default function CreateAppointment() {
   }, [name, lastName, email, service]);
 
   useEffect(() => {
-    if (date) {
-      setCanSelectTime(true);
+    if (dateSubmitted && date) {
+      if (firstRender.current) {
+        firstRender.current = false;
+      } else {
+        setSkipAppsQuery(false);
+        setCanSelectTime(true);
+      }
     }
-  }, [date]);
+  }, [date, dateSubmitted]);
 
-  {
-    /* FUNCTIONS FOR THE DATE PICKER - TODO The date Picker could be moved to a component of its own with all function needed */
-  }
-
-  const handleDateSubmit = (e) => {
-    setDateFormated(e);
-    setDate(
-      `${getDate(dateFormated)}-${getMonth(dateFormated) + 1}-${getYear(
-        dateFormated
-      )}`
-    );
-  };
+  useEffect(() => {
+    if (dateFormated) {
+      setDate(
+        `${getDate(dateFormated)}-${getMonth(dateFormated) + 1}-${getYear(
+          dateFormated
+        )}`
+      );
+      setDateSubmitted(true);
+    }
+  }, [dateFormated]);
 
   function disableWeekends(date) {
     return date.getDay() === 0 || date.getDay() === 6;
   }
 
+  let availableSlots = null;
+  let occTimeSlots = null;
+
+  if (isAppsSuccess) {
+    occTimeSlots = apps.appList.map((ap) => {
+      return `${ap.startTime}-${ap.endTime}`;
+    });
+
+    availableSlots = apps.allTimeSlots.filter(
+      (item) => !occTimeSlots.includes(item)
+    );
+  }
+
+  if (isAppsError) {
+    console.log(appsError?.data?.message);
+  }
+  if (isAppsLoading) {
+    console.log("apps loading");
+  }
+
   const canSave =
     [name, lastName, date, service, startTime, email].every(Boolean) &&
     !isLoading;
-
-  {
-    /* FORM SUBMITION */
-  }
 
   const handleAppSubmit = () => {
     if (canSave) {
@@ -181,7 +188,7 @@ export default function CreateAppointment() {
                 label="Ημερομηνία"
                 inputFormat="dd/MM/yyyy"
                 value={dateFormated}
-                onChange={handleDateSubmit}
+                onChange={(e) => setDateFormated(e)}
                 shouldDisableDate={disableWeekends}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -203,8 +210,12 @@ export default function CreateAppointment() {
               }}
             >
               {availableSlots !== null ? (
-                availableSlots.map((slot) => {
-                  return <MenuItem value={slot}>{slot}</MenuItem>;
+                availableSlots.map((slot, index) => {
+                  return (
+                    <MenuItem key={index} value={slot}>
+                      {slot}
+                    </MenuItem>
+                  );
                 })
               ) : (
                 <MenuItem>Δεν υπάρχουν διαθέσημα ραντεβού</MenuItem>

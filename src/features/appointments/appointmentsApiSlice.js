@@ -32,10 +32,11 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
         invalidatesTags:['Appointments']
     }),
     retrieveAppointmentsPublic:builder.query({
-      query:(id)=>({
-        url:`/shops/public/appointments/${id}`,
+      query:({id,date})=>({
+        url:`/shops/public/appointments/${id}/${date}`,
         method:'GET',     
-       })
+       }),
+       invalidatesTags:['Appointments']
     })
 
   }),
