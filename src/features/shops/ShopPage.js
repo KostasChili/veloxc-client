@@ -86,7 +86,7 @@ const ShopPage = () => {
             })}
           </TableCell>
           <TableCell align="center">
-            {d.active ? "ενεργό" : "ακυρωμένο"}
+            {d.active ? <Typography color={'primary'}>Αναμένεται</Typography > : <Typography color={'#FF0000'}>Ολοκληρώθηκε</Typography> }
           </TableCell>
         </TableRow>
       ) : null
