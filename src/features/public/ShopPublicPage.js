@@ -53,6 +53,17 @@ export default function CreateAppointment() {
   }, [name, lastName, email, service]);
 
   useEffect(() => {
+    if (dateFormated) {
+      setDate(
+        `${getDate(dateFormated)}-${getMonth(dateFormated) + 1}-${getYear(
+          dateFormated
+        )}`
+      );
+      setDateSubmitted(true);
+    }
+  }, [dateFormated]);
+
+  useEffect(() => {
     if (dateSubmitted && date) {
       if (firstRender.current) {
         firstRender.current = false;
@@ -63,16 +74,7 @@ export default function CreateAppointment() {
     }
   }, [date, dateSubmitted]);
 
-  useEffect(() => {
-    if (dateFormated) {
-      setDate(
-        `${getDate(dateFormated)}-${getMonth(dateFormated) + 1}-${getYear(
-          dateFormated
-        )}`
-      );
-      setDateSubmitted(true);
-    }
-  }, [dateFormated]);
+  
 
   function disableWeekends(date) {
     return date.getDay() === 0 || date.getDay() === 6;

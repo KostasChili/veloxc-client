@@ -55,11 +55,13 @@ const PersistLogin = () => {
     content = (
       <p className="errmsg">
         {error.data?.message}
-        <Link to="/login">Please login again</Link>.
+        <Link to="/login">Please login !</Link>.
       </p>
     );
   } else if (isError && location.pathname === "/") {
     content = <Outlet />;
+  } else if (isError && location.pathname === "/login") {
+    content = (<Outlet />);
   } else if (isSuccess && trueSuccess) {
     //persist: yes, token: yes
     console.log("success");

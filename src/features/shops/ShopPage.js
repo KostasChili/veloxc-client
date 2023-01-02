@@ -86,22 +86,29 @@ const ShopPage = () => {
             })}
           </TableCell>
           <TableCell align="center">
-            {d.active ? <Typography color={'primary'}>Αναμένεται</Typography > : <Typography color={'#FF0000'}>Ολοκληρώθηκε</Typography> }
+            {d.active ? <Typography color={'primary'}>ΝΑΙ</Typography > : <Typography color={'#FF0000'}>ΟΧΙ</Typography> }
+          </TableCell>
+          <TableCell align="center">
+          {!d.completed ? <Typography color={'primary'}>Αναμενεται</Typography > : <Typography color={'#FF0000'}>Ολοκληρώθηκε</Typography> }
+          </TableCell>
+          <TableCell align="center">
+          {d.attended ? <Typography color={'primary'}>ΝΑΙ</Typography > : <Typography color={'#FF0000'}>ΟΧΙ</Typography> }
           </TableCell>
         </TableRow>
       ) : null
     );
 
-    const headCells = [
-      "Όνομα Πελάτη",
-      "Υπηρεσία",
-      "Σχόλια Ραντεβού",
-      "Ημερομηνία",
-      "Ώρα Εναρξης",
-      "Ώρα Λήξης",
-      "Δημιουργήθηκε",
-      "Κατάσταστη",
-    ];
+    // const headCells = [
+    //   "Όνομα Πελάτη",
+    //   "Υπηρεσία",
+    //   "Σχόλια Ραντεβού",
+    //   "Ημερομηνία",
+    //   "Ώρα Εναρξης",
+    //   "Ώρα Λήξης",
+    //   "Δημιουργήθηκε",
+    //   "Επιβαιβεώθηκε",
+    //   "Πραγματοποιήθηκε"
+    // ];
 
     content = (
       <>
@@ -141,14 +148,16 @@ const ShopPage = () => {
                 <TableCell align="center">Ώρα Εναρξης</TableCell>
                 <TableCell align="center">Ώρα Λήξης</TableCell>
                 <TableCell align="center">Δημιουργήθηκε</TableCell>
-                <TableCell align="center">Κατάσταστη</TableCell>
+                <TableCell align="center">Επιβεβαιώθηκε</TableCell>
+                <TableCell align="center">Κατάσταση</TableCell>
+                <TableCell align="center">Παρουσιάστηκε</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{tableContent}</TableBody>
           </Table>
         </TableContainer>
         <br/>
-        <Button variant="contained" onClick={() => navigate(`/dash/shops/${id}/createAppointment`)}>
+        <Button variant="contained" onClick={() => navigate(`/shops/public/${id}`)}>
          καταχωρηση ραντεβου
         </Button>
       </>
