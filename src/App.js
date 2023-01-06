@@ -26,7 +26,7 @@ function App() {
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        <NavBar />
+        <NavBar/>
         <Routes>
           <Route index element={<Public />} />
           <Route path="/login" element={<Login />} />

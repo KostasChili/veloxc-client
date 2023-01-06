@@ -60,7 +60,12 @@ export default function Login() {
         console.log("Missing username or password");
       } else if (err.status === 401) {
         console.log("Unauthorized");
-      } else {
+       
+      } 
+      else if(err.status===409){
+        navigate('/dash')
+      }
+      else {
         console.log(err.data?.message);
       }
     }
