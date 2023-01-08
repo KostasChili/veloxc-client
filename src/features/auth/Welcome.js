@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button, Stack, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Welcome = () => {
+  const {id} = useParams();
+
   const date = new Date();
   const today = new Intl.DateTimeFormat("el-GB", {
     dateStyle: "full",
@@ -16,7 +19,7 @@ const Welcome = () => {
         <Button variant="contained" href="/dash/shops">
           Οι επιχειρησεις μου
         </Button>
-        <Button variant="contained" href="/dash/users/id">
+        <Button variant="contained" href={`/dash/users/edit`}>
           Το προφιλ μου
         </Button>
         <Button variant="contained" href="/dash/shops/new">

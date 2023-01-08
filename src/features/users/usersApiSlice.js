@@ -19,12 +19,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       },
 
       transformResponse: (responseData) => {
-        console.log(responseData)
         const loadedUsers = responseData.map((user) => {
           user.id = user._id;
           return user;
         });
-
+       
         return usersAdapter.setAll(initialState, loadedUsers); //return the loadedUsers with the new Id property
       },
       providesTags: (result, error, arg) => {

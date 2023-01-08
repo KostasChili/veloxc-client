@@ -62,27 +62,27 @@ const ShopPage = () => {
 
   const searchByName = () => {
     filteredData = filteredData.map((ap) => {
-      if (ap.customerName.includes(searchTerm)) return ap;
+      if (ap?.customerName.includes(searchTerm)) return ap;
       else return null;
     });
   };
   const searchByService = () => {
     filteredData = filteredData.map((ap) => {
-      if (ap.service.includes(searchTerm)) return ap;
+      if (ap?.service.includes(searchTerm)) return ap;
       else return null;
     });
   };
 
   const searchDate = () => {
     filteredData = filteredData.map((ap) => {
-      if (ap.date.includes(searchTerm)) return ap;
+      if (ap?.date.includes(searchTerm)) return ap;
       else return null;
     });
   };
 
   const filterByActive = () => {
     filteredData = filteredData.map((ap) => {
-      if (ap.active) {
+      if (ap?.active) {
         return ap;
       } else return null;
     });

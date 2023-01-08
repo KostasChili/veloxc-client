@@ -1,13 +1,15 @@
 import { useState,useEffect } from "react";
 import { useUpdateUserMutation,useDeleteUserMutation } from "./usersApiSlice";
 import { useNavigate } from "react-router-dom";
+import { selectUserById } from "./usersApiSlice";
+import { useSelector } from "react-redux";
 
 
 const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 
-const EditUserForm = ({user}) => {
-  
+const EditUserForm = ({userId}) => {
+  const user = useSelector(state=>selectUserById(state,userId));
     const [updateUser,{
         isLoading,
         isSuccess,
@@ -18,13 +20,13 @@ const EditUserForm = ({user}) => {
     }] = useDeleteUserMutation();
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState(user.username);
-    const [firstname, setFirstname] = useState(user.firstname);
-    const [lastname, setLastname] = useState(user.lastname);
+    const [username, setUsername] = useState(user?.username);
+    const [firstname, setFirstname] = useState(user?.firstname);
+    const [lastname, setLastname] = useState(user?.lastname);
     const [validUsername, setValidUsername] = useState(false);
     const [password, setPassword] = useState('');
     const [validPassword, setValidPassword] = useState(false);
-    const [email, setEmail] = useState(user.email);
+    const [email, setEmail] = useState(user?.email);
 
 
     useEffect(() => {
@@ -75,7 +77,14 @@ const EditUserForm = ({user}) => {
         canSave =[validUsername].every(Boolean) && !isLoading;
     }
 
-    const content = (
+    let content
+
+    if(!user) {
+      content = <p>Loading...</p>
+    }
+     else if(user)
+     {
+      content = (
         <>
       <form onSubmit={onSaveUserClicked}>
         <h2>Επεξεργασία {user.username}</h2>
@@ -89,6 +98,7 @@ const EditUserForm = ({user}) => {
           autoComplete="off"
           onChange={onUsernameChanged}
         ></input>
+        <br/>
 
 <label htmlFor="firstname">Όνομα</label>
         <input
@@ -98,7 +108,7 @@ const EditUserForm = ({user}) => {
           type="text"
           autoComplete="off"
           onChange={onFirstnameChanged}
-        ></input>
+        ></input> <br/>
 
 <label htmlFor="lastname">Επίθετο</label>
         <input
@@ -108,7 +118,7 @@ const EditUserForm = ({user}) => {
           type="text"
           autoComplete="off"
           onChange={onLastnameChanged}
-        ></input>
+        ></input> <br/>
 
         <label htmlFor="password">Κωδικός Πρόσβασης</label>
         <input
@@ -117,7 +127,7 @@ const EditUserForm = ({user}) => {
           value={password}
           type="password"
           onChange={onPasswordChanged}
-        ></input>
+        ></input> <br/>
 
         <label htmlFor="email">Email</label>
         <input
@@ -126,7 +136,7 @@ const EditUserForm = ({user}) => {
           value={email}
           type="email"
           onChange={onEmailChanged}
-        ></input>
+        ></input> <br/>
         <div>
           <button disabled={!canSave} title="Save">
             Καταχώρηση Αλλαγών
@@ -138,6 +148,8 @@ const EditUserForm = ({user}) => {
       </form>
     </>
     )
+     }
+     
 
     return content
 }

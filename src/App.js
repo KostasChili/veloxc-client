@@ -26,7 +26,7 @@ function App() {
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        <NavBar/>
+        <NavBar />
         <Routes>
           <Route index element={<Public />} />
           <Route path="/login" element={<Login />} />
@@ -44,7 +44,7 @@ function App() {
                   <Route index element={<Welcome />} />
                   <Route path="users">
                     <Route index element={<UsersList />} />
-                    <Route path=":id" element={<EditUser />} />
+                    <Route path="edit" element={<EditUser />} />
                   </Route>
                   <Route path="shops">
                     <Route index element={<ShopsList />} />{" "}
