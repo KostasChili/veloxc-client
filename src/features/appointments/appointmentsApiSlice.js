@@ -21,6 +21,12 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
          
       
     }),
+    retrieveOneAppointment:builder.query({
+      query:(appId)=>({
+        url:`appointments/${appId}`,
+        method:'GET'
+      })
+    }),
     makeAppointment: builder.mutation({
         query:(appointmentData,id) =>({
             url:`shops/public/appointments/${id}`,
@@ -52,6 +58,7 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useRetrieveAppointmentsQuery,
+  useRetrieveOneAppointmentQuery,
   useRetrieveAppointmentsPublicQuery,
     useMakeAppointmentMutation,
     useChangeAppointmentAttendedStatusMutation,

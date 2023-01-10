@@ -18,6 +18,7 @@ import PersistLogin from "./features/auth/PersistLogin";
 import AppSuccess from "./features/public/AppSuccess";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Container } from "@mui/material";
+import Appointment from "./features/appointments/Appointment";
 
 import NavBar from "./components/NavBar";
 
@@ -52,6 +53,7 @@ function App() {
                     <Route path="new" element={<NewShopForm />} />
                     <Route path=":id" element={<EditShop />}></Route>
                     <Route path=":id/appointments" element={<ShopPage />} />
+                    <Route path=":id/appointments/details/:appId" element={<Appointment/>}></Route>
                     <Route
                       path=":id/createAppointment"
                       element={<CreateAppointment />}

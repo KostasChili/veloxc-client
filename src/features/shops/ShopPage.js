@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   FormGroup,
   InputLabel,
+  Link,
   MenuItem,
   Paper,
   Select,
@@ -58,6 +59,10 @@ const ShopPage = () => {
 
   const handleCustomerStatus = (e,appId)=>{
     toggleCustomerState(appId);
+  }
+
+  const handleAppDetails = (e,appId)=>{
+    navigate(`/dash/shops/${id}/appointments/details/${appId}`)
   }
 
   const searchByName = () => {
@@ -122,9 +127,10 @@ const ShopPage = () => {
     if(filterCompleted)
     filterByCompleted();
 
-    const tableContent = filteredData.map((d) =>
+    const tableContent = filteredData.map((d,index) =>
       d ? (
         <TableRow key={d._id}>
+          <TableCell align="center"><Button onClick={(e)=>handleAppDetails(e,d._id)}>{index+1}</Button></TableCell>
           <TableCell align="center">{d.customerName}</TableCell>
           <TableCell align="center">{d.email}</TableCell>
           <TableCell align="center">{d.service}</TableCell>
@@ -184,6 +190,7 @@ const ShopPage = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell align="center">N.</TableCell>
                 <TableCell align="center">Όνομα Πελάτη</TableCell>
                 <TableCell align="center">Email</TableCell>
                 <TableCell align="center">Υπηρεσία</TableCell>
