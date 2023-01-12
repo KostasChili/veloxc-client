@@ -134,9 +134,6 @@ const ShopPage = () => {
           <TableCell align="center">{d.customerName}</TableCell>
           <TableCell align="center">{d.email}</TableCell>
           <TableCell align="center">{d.service}</TableCell>
-          <TableCell align="center">
-            {d.comments ? d.comments : "κανένα σχόλιο"}
-          </TableCell>
           <TableCell align="center">{d.date}</TableCell>
           <TableCell align="center">{d.startTime}</TableCell>
           <TableCell align="center">{d.endTime}</TableCell>
@@ -194,12 +191,11 @@ const ShopPage = () => {
                 <TableCell align="center">Όνομα Πελάτη</TableCell>
                 <TableCell align="center">Email</TableCell>
                 <TableCell align="center">Υπηρεσία</TableCell>
-                <TableCell align="center">Σχολια Πελάτη</TableCell>
                 <TableCell align="center">Ημερομηνία</TableCell>
                 <TableCell align="center">Ώρα Εναρξης</TableCell>
                 <TableCell align="center">Ώρα Λήξης</TableCell>
-                <TableCell align="center">Επιβεβαιώθηκε <Checkbox value={filterActive} onChange={handleFilterActive} /></TableCell>
-                <TableCell align="center">Κατάσταση <Checkbox value={filterCompleted} onChange={handleFilterCompleted} /></TableCell>
+                <TableCell  align="center"><div  style={{display: 'flex', alignItems: 'center'}} >Επιβεβαιώθηκε <Checkbox  value={filterActive} onChange={handleFilterActive} /></div></TableCell>
+                <TableCell align="center"><div style={{display: 'flex', alignItems: 'center'}} >Κατάσταση <Checkbox value={filterCompleted} onChange={handleFilterCompleted} /></div></TableCell>
                 <TableCell align="center">Παρουσιάστηκε</TableCell>
               </TableRow>
             </TableHead>
