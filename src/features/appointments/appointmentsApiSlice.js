@@ -17,9 +17,6 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
         ]
       }),
       invalidatesTags:['Appointments']
-     
-         
-      
     }),
     retrieveOneAppointment:builder.query({
       query:(appId)=>({
@@ -50,6 +47,13 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
         method:'GET',
       }),
       invalidatesTags:['Appointments']
+    }),
+    setCancelledAppointmentSatus:builder.mutation({
+      query:(id)=>({
+        url:`appointments/${id}/cancel`,
+        method:'GET'
+      }),
+      invalidatesTags:['Appointments']
     })
 
   }),
@@ -62,6 +66,7 @@ export const {
   useRetrieveAppointmentsPublicQuery,
     useMakeAppointmentMutation,
     useChangeAppointmentAttendedStatusMutation,
+    useSetCancelledAppointmentSatusMutation,
 } = appointmentsApiSlice
 
 

@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useRetrieveOneAppointmentQuery } from "./appointmentsApiSlice";
+import { useSetCancelledAppointmentSatusMutation } from "./appointmentsApiSlice";
 
 
 
-const handleCancelApp = (id)=>{
- console.log('cancelled app',id)
-}
+
 
 
 const Appointment = ()=>{
@@ -17,6 +16,24 @@ const {
   isError,
   error
 } = useRetrieveOneAppointmentQuery(appId);
+
+const [cancelApp,{
+  data:appStatus,
+  isSuccess:isCancelledSuccess,
+  isLoading:isCancelledLoading,
+  isError:isCancelledError,
+  error:cancelledError
+}]=useSetCancelledAppointmentSatusMutation(appId);
+
+const handleCancelApp = (id)=>{
+  console.log(id)
+  cancelApp(id);
+}
+
+if(isCancelledSuccess)
+{
+  console.log(`canceled app`,appStatus);
+}
 
   let content
   if(isLoading) content = <p>Loading...</p>
