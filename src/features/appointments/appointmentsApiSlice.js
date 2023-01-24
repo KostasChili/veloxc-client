@@ -23,7 +23,7 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
     }),
     retrieveOneAppointment:builder.query({
       query:(appId)=>({
-        url:`appointments/${appId}`,
+        url:`appointment/${appId}`,
         method:'GET'
       })
     }),
